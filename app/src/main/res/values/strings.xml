@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AppFomsAndroid</string>
+    <string name="titulopersona">REGISTRO DE PERSONAS</string>
+    <string name="valbtnirregistro">REGISTRAR PERSONAS</string>
+    <string name="valbtnirlistado">VER LISTA DE PERSONAS</string>
+    <string name="tituloregistro">REGISTRO DE PERSONAS</string>
+    <string name="valetnombre">Ingrese su nombre</string>
+    <string name="valetapellido">Ingrese su apellido</string>
+    <string name="valrbmasculino">Masculino</string>
+    <string name="valrbfemenino">Femenino</string>
+    <string name="cbdeporte">Deporte</string>
+    <string name="valcbarte">Arte y creatividad</string>
+    <string name="valcbotros">Otras preferencias</string>
+    <string name="valswnotificacion">¿Quiere recibir notificaciones?</string>
+    <string name="valbtnregistrar">REGISTRAR PERSONA</string>
+    <string name="titulolistado">LISTA DE PERSONAS REGISTRADAS</string>
+</resources>
