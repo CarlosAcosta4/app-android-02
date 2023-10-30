@@ -18,7 +18,8 @@ import java.util.List;
 import pe.edu.idat.appfomsandroid.databinding.ActivityRegistroBinding;
 
 public class RegistroActivity extends AppCompatActivity
- implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+ implements AdapterView.OnItemSelectedListener,//se utiliza para manejar eventos de selección en un AdapterView (como un Spinner)
+        View.OnClickListener {
 
     private ActivityRegistroBinding binding;
     private String estadocivil ="";
@@ -30,18 +31,22 @@ public class RegistroActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         binding = ActivityRegistroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //se crea un adaptador (AdapterArray) para un Spinner.
         ArrayAdapter<CharSequence> adapterSpinner =
                 ArrayAdapter.createFromResource(
                         this,
                         R.array.estado_civil,
                         android.R.layout.simple_spinner_item
                 );
-        binding.spestadocivil.setAdapter(adapterSpinner);
+
+        //escuchadores
+        binding.spestadocivil.setAdapter(adapterSpinner);//se utilizarán las opciones definidas en el adaptador para mostrar las selecciones en el Spinner
+        binding.spestadocivil.setOnItemSelectedListener(this);//Cuando se selecciona un elemento en el Spinner, se ejecutará el método onItemSelected
         binding.cbdeporte.setOnClickListener(this);
         binding.cbarte.setOnClickListener(this);
         binding.cbotros.setOnClickListener(this);
         binding.btnregistrar.setOnClickListener(this);
-        binding.spestadocivil.setOnItemSelectedListener(this);
         binding.btnlistapersona.setOnClickListener(this);
 
     }
@@ -66,13 +71,19 @@ public class RegistroActivity extends AppCompatActivity
     }
 
 
-    private Boolean validarNombreApellido(){
+    private Boolean validarNombre(){
         boolean respuesta = true;
         if(binding.etnombre.getText().toString().trim().isEmpty()){
             binding.etnombre.setFocusableInTouchMode(true);
             binding.etnombre.requestFocus();
             respuesta = false;
-        } else if(binding.etapellido.getText().toString().trim().isEmpty()){
+        }
+        return respuesta;
+    }
+
+    private Boolean validarApellido() {
+        boolean respuesta = true;
+        if (binding.etapellido.getText().toString().trim().isEmpty()) {
             binding.etapellido.setFocusableInTouchMode(true);
             binding.etapellido.requestFocus();
             respuesta = false;
@@ -108,8 +119,10 @@ public class RegistroActivity extends AppCompatActivity
     private Boolean validarFormulario(){
         boolean respuesta = false;
         String mensaje = "";
-        if(!validarNombreApellido()){
-            mensaje ="Ingrese su nombre y apellido";
+        if(!validarNombre()){
+            mensaje ="Ingrese su nombre ";
+        }else if(!validarApellido()){
+            mensaje ="Ingrese su  apellido";
         }else if(!validarGenero()){
             mensaje = "Seleccione su género.";
         }else if(!validarPreferencias()){
@@ -119,7 +132,7 @@ public class RegistroActivity extends AppCompatActivity
         }else
             respuesta = true;
         if(!respuesta)
-            Snackbar.make(binding.getRoot(), mensaje, Toast.LENGTH_LONG).show();
+            Snackbar.make(binding.getRoot(), mensaje, Toast.LENGTH_LONG + 2000).show();
         return respuesta;
     }
 
@@ -136,6 +149,7 @@ public class RegistroActivity extends AppCompatActivity
 
 
             Snackbar.make(binding.getRoot(), "Persona Registrada", Toast.LENGTH_LONG).show();
+            setearControles();
         }
     }
 
@@ -161,9 +175,8 @@ public class RegistroActivity extends AppCompatActivity
             agregarQuitarPreferencia(v, "Arte y creatividad");
         }else if(v.getId() == R.id.cbotros){
             agregarQuitarPreferencia(v, "Otras preferencias");
-        }else if(v.getId() == R.id.btnregistrar){
+        }else if(v.getId() == R.id.btnregistrar) {
             registrarPersona();
-            setearControles();
         }else if (v.getId() == R.id.btnlistapersona){
             Intent intentLista = new Intent(getApplicationContext(),
                     ListaActivity.class);
